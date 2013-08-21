@@ -7,24 +7,24 @@ class Playbasis
 
   BASE_URL = 'https://api.pbapp.net/'
 
-  def initialize()
+  def initialize
     @token = ''
-    @apiKeyParam = ''
+    @api_key_param = ''
   end
 
-  def auth(apiKey, apiSecret)
-    @apiKeyParam = "?api_key=#{apiKey}"
-    result = call('Auth', {  :api_key => apiKey,
-                :api_secret => apiSecret })
+  def auth(api_key, api_secret)
+    @api_key_param = "?api_key=#{api_key}"
+    result = call('Auth', {  :api_key => api_key,
+                :api_secret => api_secret })
     @token = result['response']['token']
     @token.is_a? String
   end
 
-  def player(playerId)
-    call("Player/#{playerId}", { :token => @token })
+  def player(player_id)
+    call("Player/#{player_id}", { :token => @token })
   end
 
-  # @param  optionalData  Key-value for additional parameters to be sent to the register method.
+  # @param  optional_data  Key-value for additional parameters to be sent to the register method.
   #               The following keys are supported:
   #               - facebook_id
   #               - twitter_id
@@ -34,82 +34,82 @@ class Playbasis
   #               - nickname
   #               - gender    1=Male, 2=Female
   #               - birth_date  format YYYY-MM-DD
-  def register(playerId, username, email, imageUrl, optionalData={})
-    call("Player/#{playerId}/register", {
+  def register(player_id, username, email, image_url, optional_data={})
+    call("Player/#{player_id}/register", {
       :token => @token,
       :username => username,
       :email => email,
-      :image => imageUrl
-      }.merge(optionalData))
+      :image => image_url
+      }.merge(optional_data))
   end
 
-  def login(playerId)
-    call("Player/#{playerId}/login", { :token => @token })
+  def login(player_id)
+    call("Player/#{player_id}/login", { :token => @token })
   end
     
-  def logout(playerId)
-    call("Player/#{playerId}/logout", { :token => @token })
+  def logout(player_id)
+    call("Player/#{player_id}/logout", { :token => @token })
   end
 
-  def points(playerId)
-    call("Player/#{playerId}/points" + @apiKeyParam)
+  def points(player_id)
+    call("Player/#{player_id}/points" + @api_key_param)
   end
 
-  def point(playerId, pointName)
-    call("Player/#{playerId}/point/#{pointName}" + @apiKeyParam)
+  def point(player_id, point_name)
+    call("Player/#{player_id}/point/#{point_name}" + @api_key_param)
   end
 
-  def actionLastPerformed(playerId)
-    call("Player/#{playerId}/action/time" + @apiKeyParam)
+  def action_last_performed(player_id)
+    call("Player/#{player_id}/action/time" + @api_key_param)
   end
   
-  def actionLastPerformedTime(playerId, actionName)
-    call("Player/#{playerId}/action/#{actionName}/time" + @apiKeyParam)
+  def action_last_performed_time(player_id, action_name)
+    call("Player/#{player_id}/action/#{action_name}/time" + @api_key_param)
   end
   
-  def actionPerformedCount(playerId, actionName)
-    call("Player/#{playerId}/action/#{actionName}/count" + @apiKeyParam)
+  def action_performed_count(player_id, action_name)
+    call("Player/#{player_id}/action/#{action_name}/count" + @api_key_param)
   end
   
-  def badgeOwned(playerId)
-    call("Player/#{playerId}/badge" + @apiKeyParam)
+  def badge_owned(player_id)
+    call("Player/#{player_id}/badge" + @api_key_param)
   end
   
-  def rank(rankedBy, limit)
-    call("Player/rank/#{rankedBy}/#{limit}" + @apiKeyParam)
+  def rank(ranked_by, limit)
+    call("Player/rank/#{ranked_by}/#{limit}" + @api_key_param)
   end
   
-  def badges()
-    call("Badge" + @apiKeyParam)
+  def badges
+    call('Badge' + @api_key_param)
   end
   
-  def badge(badgeId)
-    call("Badge/#{badgeId}" + @apiKeyParam)
+  def badge(badge_id)
+    call("Badge/#{badge_id}" + @api_key_param)
   end
   
-  def badgeCollections()
-    call("Badge/collection" + @apiKeyParam)
+  def badge_collections
+    call('Badge/collection' + @api_key_param)
   end
   
-  def badgeCollection(collectionId)
-    call("Badge/collection/#{collectionId}" + @apiKeyParam)
+  def badge_collection(collection_id)
+    call("Badge/collection/#{collection_id}" + @api_key_param)
   end
   
-  def actionConfig()
-    call("Engine/actionConfig" + @apiKeyParam)
+  def action_config
+    call('Engine/actionConfig' + @api_key_param)
   end
 
-  # @param  optionalData  Key-value for additional parameters to be sent to the rule method.
+  # @param  optional_data  Key-value for additional parameters to be sent to the rule method.
   #               The following keys are supported:
   #               - url    url or filter string (for triggering non-global actions)
   #               - reward  name of the custom-point reward to give (for triggering rules with custom-point reward)
   #               - quantity  amount of points to give (for triggering rules with custom-point reward)
-  def rule(playerId, action, optionalData={})
-    call("Engine/rule", {
+  def rule(player_id, action, optional_data={})
+    call('Engine/rule', {
       :token => @token,
-      :player_id => playerId,
+      :player_id => player_id,
       :action => action
-      }.merge(optionalData))
+      }.merge(optional_data))
   end
 
   def call(method, data=nil)
